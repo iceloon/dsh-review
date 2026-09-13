@@ -1,35 +1,80 @@
 {
-  "name": "@earendil-works/pi-review",
+  "name": "dsh-review",
+  "displayName": "DSH Review",
+  "description": "将 pi-review 的 /review 与 /end-review 代码审查工作流移植到 DeepSeek Harness：审查未提交改动、基线分支、单个提交、GitHub PR，或指定目录快照 — pi-review's /review and /end-review code review workflow for DeepSeek Harness.",
   "version": "0.1.0",
-  "description": "Standalone /review extension for pi coding agent",
+  "author": "iceloon",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "review",
+    "code-review",
+    "pi-review"
+  ],
   "type": "module",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "prepack": "npm run build",
+    "build": "tsdown",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.client.json",
+    "check": "pnpm run typecheck && pnpm run test && pnpm run build"
+  },
   "exports": {
     ".": {
-      "types": "./review.ts",
-      "default": "./review.ts"
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iceloon/dsh-review.git"
+  },
+  "homepage": "https://github.com/iceloon/dsh-review#readme",
+  "bugs": "https://github.com/iceloon/dsh-review/issues",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller"
+      ],
+      "platform": "web"
     }
   },
-  "types": "./review.ts",
-  "keywords": [
-    "pi-package",
-    "pi-extension"
-  ],
-  "pi": {
-    "extensions": [
-      "./review.ts"
-    ]
-  },
-  "dependencies": {},
   "peerDependencies": {
-    "@earendil-works/pi-coding-agent": "*",
-    "@earendil-works/pi-ai": "*",
-    "@earendil-works/pi-tui": "*"
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-agent": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-api-session-controller": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-commands": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-host-webserver": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-llm": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-session": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-settings": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-shell": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-user-questions": "^0.1.5-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.2"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
-    "typescript": "^5.8.3"
-  },
-  "scripts": {
-    "typecheck": "tsc --noEmit"
+    "@types/node": "^22.20.0",
+    "tsdown": "^0.22.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.8"
   }
 }

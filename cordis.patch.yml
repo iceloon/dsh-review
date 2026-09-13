@@ -1,0 +1,17 @@
+# Register the review workflow.
+#
+# The plugin contributes two human commands (`/review` and `/end-review`), one
+# settings namespace, and — when a browser is attached — a same-origin status
+# route that lets the page follow the review session. It publishes no model
+# tools and adds no prompt section, so it changes nothing about an agent's
+# capabilities until a user types /review.
+#
+# Configuration (Settings → Plugins → dsh-review):
+#   customInstructions  shared instructions appended to every review
+#   branchReview        fork a review session (default true); set false to
+#                       review in place in the current conversation
+- insert:
+    - id: dsh-review
+      name: dsh-review
+      config:
+        branchReview: true
